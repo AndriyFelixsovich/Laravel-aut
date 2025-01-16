@@ -1,15 +1,24 @@
 <?php
 
+use App\Http\Controllers\admin\AdminDashboardController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
 })->name('home');
+})->name('home');*/
 
-Route::middleware(['auth', 'verified'])->group(function (){
+Route::get('/', [SiteController::class, 'index'])->name('site');
+
+Route::get('products', [ProductController::class, 'allProducts'])->name('allProducts');
+
+
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 });
 
@@ -20,20 +29,17 @@ Route::middleware('guest')->group(function () {
     Route::get('login', [UserController::class, 'login'])->name('login');
     Route::post('login', [UserController::class, 'loginAuth'])->name('login.auth');
 
-    Route::get('forgot-password', function() {
+    Route::get('forgot-password', function () {
         return view('user.forgot-password');
     })->name('password.request');
 
-    Route::post('forgot-password', [UserController::class, 'forgotPasswordStore'])
-        ->name('password.email')
-        ->middleware('throttle:3,1');
+    Route::post('forgot-password', [UserController::class, 'forgotPasswordStore'])->name('password.email')->middleware('throttle:3,1');
 
     Route::get('reset-password/{token}', function (string $token) {
-        return view( 'user.reset-password', ['token' => $token]);
-    })->name (name: 'password.reset');
+        return view('user.reset-password', ['token' => $token]);
+    })->name(name: 'password.reset');
 
-    Route::post('reset-password', [UserController::class, 'resetPasswordUpdate'])
-        ->name (name: 'password.update');
+    Route::post('reset-password', [UserController::class, 'resetPasswordUpdate'])->name(name: 'password.update');
 });
 
 Route::middleware('auth')->group(function () {
@@ -55,4 +61,6 @@ Route::middleware('auth')->group(function () {
     Route::get('logout', [UserController::class, 'logout'])->name('logout');
 });
 
+// Admin routes
 
+Route::get('admin', [AdminDashboardController::class, 'index'])->name('admin.main')->middleware('UsRole');

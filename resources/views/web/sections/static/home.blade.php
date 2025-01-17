@@ -1,12 +1,10 @@
-<!doctype html>
-<html lang="ua">
 <head>
     @include('web.layout.head')
     <title>@yield($title ?? 'Головна')</title>
 </head>
 <body>
 <header>
-    @yield
+
 </header>
 <div class="row">
     <div class="col-md-3">

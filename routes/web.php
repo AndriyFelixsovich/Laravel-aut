@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\AdminDashboardController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UserController;
@@ -10,13 +11,26 @@ use Illuminate\Support\Facades\Route;
 
 /*Route::get('/', function () {
     return view('welcome');
-})->name('home');
 })->name('home');*/
 
 Route::get('/', [SiteController::class, 'index'])->name('site');
 
 Route::get('products', [ProductController::class, 'allProducts'])->name('allProducts');
 
+
+
+Route::group([
+    'controller' => CartController::class,
+    'as' => 'cart.',
+    'prefix' => '/cart'
+], function () {
+    Route::get('/', 'index')->name('index');
+    Route::get('/{product:id}/remove', 'remove')->name('remove');
+});
+
+Route::group(['controller' => ProductController::class, 'as' => 'product.', 'prefix' => '/products'], function () {
+    Route::get('/{id}/addToCart', 'addToCart')->name('addToCart');
+});
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [UserController::class, 'dashboard'])->name('dashboard');

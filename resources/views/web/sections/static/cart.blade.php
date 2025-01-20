@@ -10,6 +10,7 @@
     <div class="conteiner">
        <h2> {{__('Загальна вартість')}} - {{ $cart->getTotal() }} </h2>
     </div>
+    <a href="{{ route('cart.createOrder') }}">{{ __('Зробити замовлення') }}</a>
     <div class="row">
         @if($cart->isEmpty())
             <h1>{{ __('Ваш кошик пустий') }}</h1>

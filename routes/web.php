@@ -25,6 +25,7 @@ Route::group([
     'prefix' => '/cart'
 ], function () {
     Route::get('/', 'index')->name('index');
+    Route::get('/create', 'createOrder')->middleware('auth')->name('createOrder');
     Route::get('/{product:id}/remove', 'remove')->name('remove');
 });
 

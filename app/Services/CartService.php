@@ -39,7 +39,7 @@ class CartService implements CartInterface
      */
     public function clear(): void
     {
-        // TODO: Implement clear() method.
+        session()->pull('cart', []);
     }
 
     /**

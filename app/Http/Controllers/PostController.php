@@ -14,6 +14,8 @@ class PostController extends Controller
     public function index()
     {
 
+//        Gate::authorize('viewAny', Post::class);
+
         $posts = Post::with('user')->orderBy('id', 'desc')->get();
 
         return view('web.sections.posts.index', compact('posts'));
@@ -24,6 +26,10 @@ class PostController extends Controller
      */
     public function create()
     {
+//        if(\request()->user()->cannot('create', Post::class)) {
+//            abort(403, 'Unauthorized action.');
+//        }
+
        /* if (Gate::denies('create-post')){
 
             abort(403, 'Unauthorized action.');
@@ -37,6 +43,8 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+//        Gate::authorize('create', Post::class);
+
        /* if (Gate::denies('create-post')){
 
             abort(403, 'Unauthorized action.');
@@ -64,9 +72,11 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Post $post)
     {
-        $post = Post::query()->findOrFail($id);
+//        $post = Post::query()->findOrFail($id);
+
+//        Gate::authorize('update', $post);
 
         /*if (Gate::denies('update-post', $post)){
 
@@ -81,7 +91,10 @@ class PostController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
         $post = Post::query()->findOrFail($id);
+
+//        Gate::authorize('update', Post::class);
 
         $credentials = $request->validate([
             'title' => ['required', 'max:255'],
@@ -98,6 +111,9 @@ class PostController extends Controller
     public function destroy(string $id)
     {
         $post = Post::query()->findOrFail($id);
+
+//        Gate::authorize('delete', $post);
+
         $post->delete();
         return redirect()->route('posts.index');
     }

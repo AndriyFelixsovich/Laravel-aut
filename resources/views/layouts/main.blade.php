@@ -34,9 +34,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('posts.index') }}">Пости</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('posts.create') }}">Створити пост</a>
-                        </li>
+{{--                        @can('create',\App\Models\Post::class  )--}}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('posts.create') }}">Створити пост</a>
+                            </li>
+{{--                        @endcan--}}
                     @else
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('register')  }}">Register</a>

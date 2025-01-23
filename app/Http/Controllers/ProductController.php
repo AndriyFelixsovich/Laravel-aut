@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Collection;
+use App\Models\Order;
+use App\Models\Phone;
 use App\Models\Product;
+use App\Models\OrderProduct;
+use App\Models\User;
 use App\Services\CartService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -41,6 +45,21 @@ class ProductController extends Controller
     public function allProducts(Request $request)
     {
 
+        /*$phone = User::with('phone')->get();
+        foreach ($phone as $user) {
+//            if ($user->phone) {
+                echo $user->phone->number .  '</br>';
+//            } else {
+//               continue;
+//            }
+        }*/
+
+        $users = User::where('id', '<', 10)->get();
+
+        $posts = Phone::whereBelongsTo($users)->get();
+
+        $user = User::find(14)->latestOrder;
+dd($user);
         $collections = Collection::all();
         $products = Product::query()->where('is_published', '=', 'true');
 

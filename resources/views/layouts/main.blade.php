@@ -31,6 +31,12 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('logout') }}">logout</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('posts.index') }}">Пости</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('posts.create') }}">Створити пост</a>
+                        </li>
                     @else
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('register')  }}">Register</a>
